@@ -27,7 +27,7 @@ NM <- c("device_type"
         ,"advertiser_network_revenue"
         ,"publisher_network_revenue"
         ,"date") 
-
+ptt <- proc.time()
 NR3 <- function (filename) {
   ## load file
   filepath <- "~/NRs/NR3/" 
@@ -92,21 +92,21 @@ NR3 <- function (filename) {
   df               <-  df[,c(-7,-21,-22,-23)]
   df$date          <-  as.Date(substr(filename,29,38))
   print(paste("worked on ",filename))
-  tt=proc.time() -pt
-  print( tt)
+  print( proc.time() -ptt)
+  print( proc.time() -pt)
   assign(paste0("results",gsub("-","_",substr(filename,29,38))),df,envir = .GlobalEnv) ## remove.... DEBUG only
 }       ### end of main function NR3
 
 ### calling the function on list.files()
-# filepath <- "~/NRs/NR3/"
-# setwd(filepath)
-# flist <- list.files()
-# flist <- flist[substr(flist,1,4)=="2015"]
-# a=llply(flist,NR3)                                                            ### TODO:: change names of a and b 
-# b=rbind(a[[1]],a[[2]],a[[3]],a[[4]],a[[5]],a[[6]],a[[7]])
-# write.csv(b, file = "NR4_data.csv")
+filepath <- "~/NRs/NR3/"
+setwd(filepath)
+flist <- list.files()
+flist <- flist[substr(flist,1,4)=="2015"]
+a=llply(flist,NR3)                                                            ### TODO:: change names of a and b 
+b=rbind(a[[1]],a[[2]],a[[3]],a[[4]],a[[5]],a[[6]],a[[7]])
+write.csv(b, file = "NR4_data.csv")
 #b=rbind(paste0("results",gsub("-","_",substr(flist,29,38))))
-    b=rbind(results2015_04_28,results2015_04_29,results2015_04_30,results2015_05_01,results2015_05_02,results2015_05_03,results2015_05_04)
+#  b=rbind(results2015_04_28,results2015_04_29,results2015_04_30,results2015_05_01,results2015_05_02,results2015_05_03,results2015_05_04)
   
 shinyServer(function(input, output) {
   
